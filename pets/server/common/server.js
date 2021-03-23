@@ -7,8 +7,10 @@ import * as os from 'os';
 import l from './logger';
 import * as OpenApiValidator from 'express-openapi-validator';
 import errorHandler from '../api/middlewares/error.handler';
+import mongoose from 'mongoose';
 
 const app = new Express();
+const mongoURI = process.env.MONGO_URI;
 
 export default class ExpressServer {
   constructor() {
@@ -56,6 +58,13 @@ export default class ExpressServer {
       );
 
     http.createServer(app).listen(port, welcome(port));
+
+    mongoose.connect(mongoURI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true
+    }).then(() => {
+      console.log("MongoDB connected!");
+    }).catch(err => console.log(err));
 
     return app;
   }
