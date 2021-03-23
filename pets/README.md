@@ -17,13 +17,19 @@ npm run dev
 ## Run in *production* mode:
 
 ```shell
-npm run compile
+npm run build
 npm start
+```
+
+## Run with Docker
+
+```shell
+docker-compose up
 ```
 
 ## Test
 
-Run the Mocha unit tests
+Run Mocha unit tests
 
 ```shell
 npm test
