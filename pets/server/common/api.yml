@@ -1,0 +1,137 @@
+openapi: 3.0.1
+info:
+  title: pets
+  description: Pet Inventory
+  version: 1.0.0
+servers:
+  - url: /api/v1
+tags:
+  - name: Pets
+    description: Details about pets
+  - name: Specification
+    description: The swagger API specification
+paths:
+  /pets:
+    get:
+      tags:
+        - Pets
+      description: Fetch all pets
+      responses:
+        200:
+          description: Return the pet with the specified id
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pet'
+        4XX:
+          description: Pet not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        5XX:
+          description: Pet not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+    post:
+      tags:
+        - Pets
+      description: Create a new pet
+      requestBody:
+        description: a pet
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PetBody'
+        required: true
+      responses:
+        201:
+          description: Return the pet with the specified id
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+        4XX:
+          description: Pet not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+        5XX:
+          description: Pet not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+  /pets/{id}:
+    get:
+      tags:
+        - Pets
+      parameters:
+        - name: id
+          in: path
+          description: The id of the pet to retrieve
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Return the pet with the specified id
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+        4XX:
+          description: Pet not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        5XX:
+          description: Pet not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /spec:
+    get:
+      tags:
+        - Specification
+      responses:
+        200:
+          description: Return the API specification
+          content: {}
+components:
+  schemas:
+    Pet:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 123456
+        active:
+          type: boolean
+          example: true
+        name:
+          type: string
+          example: "spot"
+        category:
+          type: string
+          example: "dog"
+    Error:
+      type: object
+      additionalProperties: true
+
+    PetBody:
+      title: pet
+      required:
+        - name
+      type: object
+      properties:
+        name:
+          type: string
+          example: "joe"
