@@ -13,9 +13,9 @@ class PetsService {
     }
 
     async byId(id) {
-        l.info(`${this.constructor.name}.byId(${sub})`);
+        l.info(`${this.constructor.name}.byId(${id})`);
         try {
-            const pet = await Pet.findOne({id: id});
+            const pet = await Pet.findOne({ _id: id});
             return pet;
         } catch (error) {
             return error;
@@ -33,10 +33,10 @@ class PetsService {
         }
     }
 
-    async update(sub, body) {
-        l.info(`${this.constructor.name}.update(${sub})`);
+    async update(id, body) {
+        l.info(`${this.constructor.name}.update(${id})`);
         try {
-          const pet = await Pet.findOneAndUpdate({ sub: sub }, body, { new: true });
+          const pet = await Pet.findOneAndUpdate({ _id: id }, body, { new: true });
           if (pet) {
             return pet;
           }else{
@@ -48,10 +48,10 @@ class PetsService {
     
       }
     
-      async delete(sub) {
-        l.info(`${this.constructor.name}.delete(${sub})`);
+      async delete(id) {
+        l.info(`${this.constructor.name}.delete(${id})`);
         try {
-          const result = await Pet.deleteOne({ sub: sub })
+          const result = await Pet.deleteOne({ _id: id })
           return { "result": !!result.n }
         } catch (err) {
           return err

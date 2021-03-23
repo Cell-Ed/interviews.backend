@@ -12,6 +12,8 @@ import mongoose from 'mongoose';
 const app = new Express();
 const mongoURI = process.env.MONGO_URI;
 
+require('../api/auth/auth'); // load passport.js
+
 export default class ExpressServer {
   constructor() {
     const root = path.normalize(`${__dirname}/../..`);
@@ -52,8 +54,7 @@ export default class ExpressServer {
   listen(port = process.env.PORT) {
     const welcome = (p) => () =>
       l.info(
-        `up and running in ${
-          process.env.NODE_ENV || 'development'
+        `up and running in ${process.env.NODE_ENV || 'development'
         } @: ${os.hostname()} on port: ${p}}`
       );
 

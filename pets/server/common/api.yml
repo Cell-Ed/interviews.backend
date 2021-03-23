@@ -1,6 +1,6 @@
 openapi: 3.0.1
 info:
-  title: pets
+  title: cell-ed pets
   description: Pet Inventory
   version: 1.0.0
 servers:
@@ -11,6 +11,57 @@ tags:
   - name: Specification
     description: The swagger API specification
 paths:
+  /auth/register:
+    post:
+      tags:
+        - Auth
+      summary: Register an account
+      requestBody:
+        description: A username and password
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        200:
+          description: A created user
+          content:
+            application/json:
+              schema:
+                type: object
+        5XX:
+          description: Error creating user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /auth/token:
+    post:
+      tags:
+        - Auth
+      summary: Obtain a token
+      description: Obtain a token with a valid login
+      requestBody:
+        description: A username and password
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        200:
+          description: A token
+          content:
+            application/json:
+              schema:
+                type: object
+        5XX:
+          description: Error logging in user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
   /pets:
     get:
       tags:
@@ -122,12 +173,13 @@ components:
         category:
           type: string
           example: "dog"
+
     Error:
       type: object
       additionalProperties: true
 
     PetBody:
-      title: pet
+      title: PetBody
       required:
         - name
       type: object
