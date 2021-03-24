@@ -7,6 +7,7 @@ import * as os from 'os';
 import l from './logger';
 import * as OpenApiValidator from 'express-openapi-validator';
 import errorHandler from '../api/middlewares/error.handler';
+import { rateLimiter } from '../api/middlewares/rateLimiter';
 import mongoose from 'mongoose';
 
 const app = new Express();
@@ -43,6 +44,7 @@ export default class ExpressServer {
         ignorePaths: /.*\/spec(\/|$)/,
       })
     );
+    app.use(rateLimiter);
   }
 
   router(routes) {
