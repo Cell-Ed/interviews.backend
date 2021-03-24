@@ -2,6 +2,12 @@ import l from '../../common/logger';
 import Pet from '../models/Pet';
 
 class PetsService {
+  /**
+   * Fetch all pets from the database
+   * @param {number} limit - maximum number of records to return
+   * @param {number} offset - starting offset for pagination
+   * @param {string} category - filter by type of pet
+   */
   async all(limit, offset, category) {
     l.info(
       `${this.constructor.name}.all(limit=${limit}, offset=${offset}, category=${category})`
@@ -16,6 +22,10 @@ class PetsService {
     }
   }
 
+  /**
+   * Fetch a pet by id from the database
+   * @param {string} id
+   */
   async byId(id) {
     l.info(`${this.constructor.name}.byId(${id})`);
     try {
@@ -26,6 +36,10 @@ class PetsService {
     }
   }
 
+  /**
+   * Create a new pet in the database
+   * @param {Object} body
+   */
   async create(body) {
     l.info(`${this.constructor.name}.create()`);
     try {
@@ -38,6 +52,11 @@ class PetsService {
     }
   }
 
+  /**
+   * Update an existing pet in the database
+   * @param {string} id
+   * @param {Object} body
+   */
   async update(id, body) {
     l.info(`${this.constructor.name}.update(${id})`);
     try {
@@ -52,6 +71,10 @@ class PetsService {
     }
   }
 
+  /**
+   * Delete a pet from the database
+   * @param {string} id
+   */
   async delete(id) {
     l.info(`${this.constructor.name}.delete(${id})`);
     try {
@@ -62,6 +85,10 @@ class PetsService {
     }
   }
 
+  /**
+   * Mark a pet as archived (hidden) in the database
+   * @param {string} id
+   */
   async archive(id) {
     l.info(`${this.constructor.name}.archive(${id})`);
     try {
@@ -72,6 +99,10 @@ class PetsService {
     }
   }
 
+  /**
+   * Mark a pet as unarchived (visible) in the database
+   * @param {string} id
+   */
   async unarchive(id) {
     l.info(`${this.constructor.name}.unarchive(${id})`);
     try {

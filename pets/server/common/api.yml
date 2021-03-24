@@ -537,12 +537,13 @@ components:
           example: "user"
     Error:
       type: object
-      additionalProperties: true
+      example: { "error": "message" }
     Result:
       type: object
       properties:
         result:
           type: string
+      example: { "result": "message" }
     Credentials:
       type: object
       properties:
@@ -550,12 +551,13 @@ components:
           type: string
         password:
           type: string
+      example: { "email": "user@cell-ed.com", "password": "123456" }
     Token:
       type: object
       properties:
         token:
           type: string
-          example: { "token": "asdawseurhisuehr" }
+      example: { "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VyIjp7Il9pZCI6IjYwNWJiYTE3MzM3Mzk4NDZhMWJkNzQ0NCIsImVtYWlsIjoidmlzaG51LnJhdmkrM0BnbWFpbC5jb20isSwiaWF0IjoxNjE2NjI0MTY0fQ.kJCkzvbZgmhFLe3iQAnjNnftSr5FIAsHa2JJt3jgPq4" }
   securitySchemes:
     jwt:
       type: http

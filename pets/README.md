@@ -2,6 +2,8 @@
 
 Cell-Ed Pet Inventory API
 
+## Instructions
+
 ## Install Dependencies
 
 ```shell
@@ -12,6 +14,12 @@ npm install
 
 ```shell
 npm run dev
+```
+
+## Run in *development* mode with debugger:
+
+```shell
+npm run dev:debug
 ```
 
 ## Run in *production* mode:
@@ -27,19 +35,13 @@ npm start
 docker-compose up
 ```
 
-## Test
-
-Run Mocha unit tests
+## Run unit tests
 
 ```shell
 npm test
 ```
 
 ## Try
-* Open a browser to [http://localhost:3000](http://localhost:3000)
-* Access the `/pets` endpoint 
-  ```shell
-  curl http://localhost:3000/api/v1/pets
-  ```
 
+* Open a browser to API explorer [http://localhost:3000/api-explorer/](http://localhost:3000/api-explorer/)
    

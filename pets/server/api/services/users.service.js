@@ -2,6 +2,9 @@ import l from '../../common/logger';
 import User from '../models/User';
 
 class UsersService {
+  /**
+   * Fetch all users from the database
+   */
   async all() {
     l.info(`${this.constructor.name}.all()`);
     try {
@@ -12,6 +15,10 @@ class UsersService {
     }
   }
 
+  /**
+   * Fetch an existing user by id from the database
+   * @param {string} id
+   */
   async byId(id) {
     l.info(`${this.constructor.name}.byId(${id})`);
     try {
@@ -22,6 +29,10 @@ class UsersService {
     }
   }
 
+  /**
+   * Create a new user in the database
+   * @param {Object} body
+   */
   async create(body) {
     l.info(`${this.constructor.name}.create()`);
     try {
@@ -33,6 +44,11 @@ class UsersService {
     }
   }
 
+  /**
+   * Update an existing user record in the database
+   * @param {string} id
+   * @param {Object} body
+   */
   async update(id, body) {
     l.info(`${this.constructor.name}.update(${id})`);
     try {
@@ -49,6 +65,10 @@ class UsersService {
     }
   }
 
+  /**
+   * Delete an existing user record in the database
+   * @param {string} id
+   */
   async delete(id) {
     l.info(`${this.constructor.name}.delete(${id})`);
     try {
