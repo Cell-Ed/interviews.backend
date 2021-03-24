@@ -1,15 +1,36 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
 const Schema = mongoose.Schema;
 
 let petSchema = new Schema({
-    id: String,
-    active: Boolean,
-    name: String,
-    category: String
+  name: {
+    // the pet's name, need not be unique
+    type: String,
+    required: true,
+  },
+  category: {
+    // the type of pet (i.e. dog, cat, rabbit)
+    type: String,
+    required: true,
+  },
+  description: {
+    type: String,
+  },
+  photoUris: {
+    // URIs representing images of the pet
+    type: [String],
+  },
+  created: {
+    type: Date,
+    default: Date.now,
+  },
+  archived: {
+    // archived pets are meant to be hidden without deleting
+    type: Boolean,
+    default: false,
+  },
 });
 
-const Pet = mongoose.model("Pet", petSchema, "pets");
+const Pet = mongoose.model('Pet', petSchema, 'pets');
 
 export default Pet;
-    

@@ -54,18 +54,22 @@ export default class ExpressServer {
   listen(port = process.env.PORT) {
     const welcome = (p) => () =>
       l.info(
-        `up and running in ${process.env.NODE_ENV || 'development'
+        `up and running in ${
+          process.env.NODE_ENV || 'development'
         } @: ${os.hostname()} on port: ${p}}`
       );
 
     http.createServer(app).listen(port, welcome(port));
 
-    mongoose.connect(mongoURI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true
-    }).then(() => {
-      console.log("MongoDB connected!");
-    }).catch(err => console.log(err));
+    mongoose
+      .connect(mongoURI, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+      })
+      .then(() => {
+        console.log('MongoDB connected!');
+      })
+      .catch((err) => console.log(err));
 
     return app;
   }

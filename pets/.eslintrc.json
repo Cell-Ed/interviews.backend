@@ -1,6 +1,6 @@
 {
     "parser": "babel-eslint",
-    "extends": ["eslint:recommended", "plugin:node/recommended", "prettier"],
+    "extends": ["eslint:recommended", "plugin:node/recommended", "prettier", "plugin:yml/standard"],
     "env": {
       "mocha": true
     },

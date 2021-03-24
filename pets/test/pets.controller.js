@@ -10,7 +10,7 @@ describe('Pets', () => {
       .get('/api/v1/pets')
       .expect('Content-Type', /json/)
       .then((r) => {
-        expect(r.body).to.be.an.an('array').of.length(2);
+        expect(r.body).to.be.an.an('array');
       }));
 
   it('should add a new pet', () =>
@@ -27,7 +27,7 @@ describe('Pets', () => {
 
   it('should get an pet by id', () =>
     request(Server)
-      .get('/api/v1/examples/2')
+      .get('/api/v1/pets/2')
       .expect('Content-Type', /json/)
       .then((r) => {
         expect(r.body)

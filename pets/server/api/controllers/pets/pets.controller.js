@@ -19,12 +19,23 @@ export class PetsController {
   }
 
   delete(req, res) {
-    PetsService.delete(req.params.id).then((result) => {
-      res.json(result);
-    })
-    .catch((error) => {
-      res.status(400).json(error);
-    })
+    PetsService.delete(req.params.id)
+      .then((result) => {
+        res.json(result);
+      })
+      .catch((error) => {
+        res.json(error);
+      });
+  }
+
+  archive(req, res) {
+    PetsService.archive(req.params.id, req.body.status)
+      .then((result) => {
+        res.json(result);
+      })
+      .catch((error) => {
+        res.json(error);
+      });
   }
 }
 export default new PetsController();

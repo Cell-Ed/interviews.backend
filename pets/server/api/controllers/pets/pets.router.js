@@ -6,4 +6,5 @@ export default express
   .post('/', petsController.create)
   .get('/', petsController.all)
   .get('/:id', petsController.byId)
+  .get('/:id/archive', petsController.archive)
   .delete('/:id', petsController.delete);
