@@ -1,3 +1,5 @@
+import UsersService from '../../services/users.service';
+
 export class UsersController {
   all(req, res) {
     UsersService.all().then((r) => res.json(r));

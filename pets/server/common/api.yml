@@ -26,7 +26,7 @@ paths:
         content:
           application/json:
             schema:
-              type: object
+              $ref: "#/components/schemas/Credentials"
       responses:
         200:
           description: A created user
@@ -308,7 +308,7 @@ paths:
           description: The id of the pet to retrieve
           required: true
           schema:
-            type: integer
+            type: string
       responses:
         200:
           description: Return the pet with the specified id
@@ -366,7 +366,7 @@ paths:
         - Pets
       summary: Delete a pet in the inventory
       security:
-        - cognito: []
+        - jwt: []
       parameters:
         - name: id
           in: path
@@ -398,25 +398,17 @@ paths:
     patch:
       tags:
         - Pets
-      summary: Update the archived status of a pet
+      summary: Archive a pet
       parameters:
         - name: id
           in: path
-          description: The id of the pet to update
+          description: The id of the pet to archive
           required: true
           schema:
             type: string
-      requestBody:
-        description: Archive status (true or false)
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              example: { "status": true }
       responses:
         200:
-          description: Return the results of the operation
+          description: Pet successfully archived
           content:
             application/json:
               schema:
@@ -428,7 +420,38 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
         5XX:
-          description: Unable to process request
+          description: Error archiving pet
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /pets/{id}/unarchive:
+    patch:
+      tags:
+        - Pets
+      summary: Un-archive a pet
+      parameters:
+        - name: id
+          in: path
+          description: The id of the pet to unarchive
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Pet successfully unarchived
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Result"
+        404:
+          description: Pet not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        5XX:
+          description: Error unarchiving pet
           content:
             application/json:
               schema:
@@ -519,6 +542,13 @@ components:
       type: object
       properties:
         result:
+          type: string
+    Credentials:
+      type: object
+      properties:
+        email:
+          type: string
+        password:
           type: string
     Token:
       type: object

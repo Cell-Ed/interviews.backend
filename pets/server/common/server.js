@@ -9,11 +9,10 @@ import * as OpenApiValidator from 'express-openapi-validator';
 import errorHandler from '../api/middlewares/error.handler';
 import { rateLimiter } from '../api/middlewares/rateLimiter';
 import mongoose from 'mongoose';
+import * as auth from '../api/auth/auth';
 
 const app = new Express();
 const mongoURI = process.env.MONGO_URI;
-
-require('../api/auth/auth'); // load passport.js
 
 export default class ExpressServer {
   constructor() {
@@ -72,6 +71,8 @@ export default class ExpressServer {
         console.log('MongoDB connected!');
       })
       .catch((err) => console.log(err));
+
+    mongoose.set('useCreateIndex', true);
 
     return app;
   }

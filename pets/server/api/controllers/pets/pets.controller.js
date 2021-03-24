@@ -16,7 +16,7 @@ export class PetsController {
   }
 
   create(req, res) {
-    PetsService.create(req.body.name).then((r) =>
+    PetsService.create(req.body).then((r) =>
       res.status(201).location(`/api/v1/pet/${r.id}`).json(r)
     );
   }
@@ -32,7 +32,17 @@ export class PetsController {
   }
 
   archive(req, res) {
-    PetsService.archive(req.params.id, req.body.status)
+    PetsService.archive(req.params.id)
+      .then((result) => {
+        res.json(result);
+      })
+      .catch((error) => {
+        res.json(error);
+      });
+  }
+
+  unarchive(req, res) {
+    PetsService.unarchive(req.params.id)
       .then((result) => {
         res.json(result);
       })
@@ -41,4 +51,5 @@ export class PetsController {
       });
   }
 }
+
 export default new PetsController();

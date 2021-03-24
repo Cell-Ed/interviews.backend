@@ -5,7 +5,7 @@ import User from '../models/User';
 
 // save new user data to database
 passport.use(
-  'signup',
+  'register',
   new localStrategy(
     {
       usernameField: 'email',
@@ -57,7 +57,7 @@ passport.use(
   new JWTStrategy(
     {
       secretOrKey: 'TOP_SECRET',
-      jwtFromRequest: ExtractJwt.fromUrlQueryParameter('secret_token'),
+      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
     },
     async (token, done) => {
       try {

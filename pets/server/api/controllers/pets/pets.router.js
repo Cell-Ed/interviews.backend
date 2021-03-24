@@ -1,10 +1,28 @@
 import * as express from 'express';
 import petsController from './pets.controller';
+import passport from 'passport';
 
 export default express
   .Router()
-  .post('/', petsController.create)
   .get('/', petsController.all)
   .get('/:id', petsController.byId)
-  .get('/:id/archive', petsController.archive)
-  .delete('/:id', petsController.delete);
+  .patch(
+    '/:id/archive',
+    passport.authenticate('jwt', { session: false }),
+    petsController.archive
+  )
+  .patch(
+    '/:id/unarchive',
+    passport.authenticate('jwt', { session: false }),
+    petsController.unarchive
+  )
+  .post(
+    '/',
+    passport.authenticate('jwt', { session: false }),
+    petsController.create
+  )
+  .delete(
+    '/:id',
+    passport.authenticate('jwt', { session: false }),
+    petsController.delete
+  );

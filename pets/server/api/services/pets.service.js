@@ -29,6 +29,7 @@ class PetsService {
   async create(body) {
     l.info(`${this.constructor.name}.create()`);
     try {
+      console.log(body);
       const pet = new Pet(body);
       const result = await pet.save();
       return result;
@@ -61,11 +62,20 @@ class PetsService {
     }
   }
 
-  async archive(id, status) {
-    l.info(`${this.constructor.name}.archive(${id}, ${status})`);
+  async archive(id) {
+    l.info(`${this.constructor.name}.archive(${id})`);
     try {
-      const update = status ? { archived: true } : { archived: false };
-      const result = await Pet.updateOne({ _id: id }, update);
+      const result = await Pet.updateOne({ _id: id }, { archived: true });
+      return { result: !!result.nModified };
+    } catch (error) {
+      return error;
+    }
+  }
+
+  async unarchive(id) {
+    l.info(`${this.constructor.name}.unarchive(${id})`);
+    try {
+      const result = await Pet.updateOne({ _id: id }, { archived: false });
       return { result: !!result.nModified };
     } catch (error) {
       return error;
