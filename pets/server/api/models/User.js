@@ -33,10 +33,6 @@ const userSchema = new Schema({
     enum: ['user', 'admin'],
     default: 'user',
   },
-  created: {
-    type: Date,
-    default: Date.now,
-  },
 });
 
 // encrypt password before saving

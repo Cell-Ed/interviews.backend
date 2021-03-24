@@ -2,7 +2,10 @@ import PetsService from '../../services/pets.service';
 
 export class PetsController {
   all(req, res) {
-    PetsService.all().then((r) => res.json(r));
+    const { limit, offset, category } = req.query;
+    const _offset = offset ? +offset : 0;
+    const _limit = limit ? +limit : 10;
+    PetsService.all(_limit, _offset, category).then((r) => res.json(r));
   }
 
   byId(req, res) {

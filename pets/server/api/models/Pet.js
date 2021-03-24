@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 
 const Schema = mongoose.Schema;
+const mongoosePaginate = require('mongoose-paginate-v2');
 
 let petSchema = new Schema({
   name: {
@@ -15,14 +16,11 @@ let petSchema = new Schema({
   },
   description: {
     type: String,
+    max: 255,
   },
   photoUris: {
     // URIs representing images of the pet
     type: [String],
-  },
-  created: {
-    type: Date,
-    default: Date.now,
   },
   archived: {
     // archived pets are meant to be hidden without deleting
@@ -30,6 +28,8 @@ let petSchema = new Schema({
     default: false,
   },
 });
+
+petSchema.plugin(mongoosePaginate);
 
 const Pet = mongoose.model('Pet', petSchema, 'pets');
 

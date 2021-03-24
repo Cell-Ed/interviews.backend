@@ -2,10 +2,14 @@ import l from '../../common/logger';
 import Pet from '../models/Pet';
 
 class PetsService {
-  async all() {
-    l.info(`${this.constructor.name}.all()`);
+  async all(limit, offset, category) {
+    l.info(
+      `${this.constructor.name}.all(limit=${limit}, offset=${offset}, category=${category})`
+    );
+    const query = category ? { category } : {};
+
     try {
-      const pets = await Pet.find();
+      const pets = await Pet.paginate(query, { limit, offset });
       return pets;
     } catch (error) {
       return error;
