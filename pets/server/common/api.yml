@@ -399,6 +399,8 @@ paths:
       tags:
         - Pets
       summary: Archive a pet
+      security:
+        - jwt: []
       parameters:
         - name: id
           in: path
@@ -430,6 +432,8 @@ paths:
       tags:
         - Pets
       summary: Un-archive a pet
+      security:
+        - jwt: []
       parameters:
         - name: id
           in: path
@@ -456,6 +460,33 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
+  /images:
+    post:
+      tags:
+        - Images
+      summary: Upload pet images (as a base64 string)
+      security:
+        - jwt: []
+      requestBody:
+        description: An image of a pet
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Image'
+      responses:
+        200:
+          description: Image uploaded
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ImageResult"
+        5XX:
+          description: Error uploading image
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
   /spec:
     get:
       tags:
@@ -478,9 +509,9 @@ components:
         category:
           type: string
           example: "dog"
-        photoUris:
+        imageUris:
           type: array
-          example: ["photo1.jpg", "photo2.jpg", "photo3.jpg"]
+          example: ["image1.jpg", "image2.jpg", "image3.jpg"]
     PetBody:
       title: PetBody
       required:
@@ -496,9 +527,9 @@ components:
         category:
           type: string
           example: "dog"
-        photoUris:
+        imageUris:
           type: array
-          example: ["photo1.jpg", "photo2.jpg", "photo3.jpg"]
+          example: ["image1.jpg", "image2.jpg", "image3.jpg"]
     User:
       type: object
       properties:
@@ -535,6 +566,14 @@ components:
         role:
           type: string
           example: "user"
+    Image:
+      type: object
+      properties:
+        imageData:
+          type: string
+          description: a base64 encoded string
+        petId:
+          type: string
     Error:
       type: object
       example: { "error": "message" }
@@ -544,6 +583,14 @@ components:
         result:
           type: string
       example: { "result": "message" }
+    ImageResult:
+      type: object
+      properties:
+        location:
+          type: string
+        key:
+          type: string
+      example: { "location": "awsexamplebucket1.s3.amazonaws.com", "key": "image.jpg" }
     Credentials:
       type: object
       properties:

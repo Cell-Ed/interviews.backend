@@ -18,7 +18,7 @@ let petSchema = new Schema({
     type: String,
     max: 255,
   },
-  photoUris: {
+  imageUris: {
     // URIs representing images of the pet
     type: [String],
   },
