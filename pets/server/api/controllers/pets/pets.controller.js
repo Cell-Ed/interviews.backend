@@ -8,26 +8,52 @@ export class PetsController {
     const { limit, offset, category } = req.query;
     const _offset = offset ? +offset : 0;
     const _limit = limit ? +limit : 10;
-    PetsService.all(_limit, _offset, category).then((r) => res.json(r));
+    PetsService.all(_limit, _offset, category)
+      .then((result) => {
+        res.json(result);
+      })
+      .catch((error) => {
+        res.status(500).json(error);
+      });
   }
 
   /**
    * Fetch an existing pet by id
    */
   byId(req, res) {
-    PetsService.byId(req.params.id).then((r) => {
-      if (r) res.json(r);
-      else res.status(404).end();
-    });
+    PetsService.byId(req.params.id)
+      .then((result) => {
+        res.json(result);
+      })
+      .catch((error) => {
+        res.status(500).json(error);
+      });
   }
 
   /**
    * Create a new pet
    */
   create(req, res) {
-    PetsService.create(req.body).then((r) =>
-      res.status(201).location(`/api/v1/pet/${r.id}`).json(r)
-    );
+    PetsService.create(req.body)
+      .then((result) =>
+        res.status(201).location(`/api/v1/pet/${result.id}`).json(result)
+      )
+      .catch((error) => {
+        res.status(500).json(error);
+      });
+  }
+
+  /**
+   * Update a pet
+   */
+  update(req, res) {
+    PetsService.update(req.params.id, req.body)
+      .then((result) => {
+        res.json(result);
+      })
+      .catch((error) => {
+        res.status(500).json(error);
+      });
   }
 
   /**
@@ -39,7 +65,7 @@ export class PetsController {
         res.json(result);
       })
       .catch((error) => {
-        res.json(error);
+        res.status(500).json(error);
       });
   }
 
@@ -52,7 +78,7 @@ export class PetsController {
         res.json(result);
       })
       .catch((error) => {
-        res.json(error);
+        res.status(500).json(error);
       });
   }
 
@@ -65,7 +91,7 @@ export class PetsController {
         res.json(result);
       })
       .catch((error) => {
-        res.json(error);
+        res.status(500).json(error);
       });
   }
 }

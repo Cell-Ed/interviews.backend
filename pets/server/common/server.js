@@ -12,7 +12,9 @@ import mongoose from 'mongoose';
 import * as auth from '../api/auth/auth';
 
 const app = new Express();
-const mongoURI = process.env.MONGO_URI;
+const env = process.env.NODE_ENV || 'development';
+const mongoURI =
+  env === 'test' ? process.env.MONGO_URI_TEST : process.env.MONGO_URI;
 
 export default class ExpressServer {
   constructor() {

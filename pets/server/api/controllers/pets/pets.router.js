@@ -21,6 +21,11 @@ export default express
     passport.authenticate('jwt', { session: false }),
     petsController.create
   )
+  .put(
+    '/:id',
+    passport.authenticate('jwt', { session: false }),
+    petsController.update
+  )
   .delete(
     '/:id',
     passport.authenticate('jwt', { session: false }),

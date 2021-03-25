@@ -5,26 +5,56 @@ export class UsersController {
    * Fetch all existing users
    */
   all(req, res) {
-    UsersService.all().then((r) => res.json(r));
+    UsersService.all()
+      .then((result) => {
+        res.json(result);
+      })
+      .catch((error) => {
+        res.status(500).json(error);
+      });
   }
 
   /**
    * Fetch an existing user by id
    */
   byId(req, res) {
-    UsersService.byId(req.params.id).then((r) => {
-      if (r) res.json(r);
-      else res.status(404).end();
-    });
+    UsersService.byId(req.params.id)
+      .then((result) => {
+        if (result) {
+          res.json(result);
+        } else {
+          res.status(404).end();
+        }
+      })
+      .catch((error) => {
+        res.status(500).json(error);
+      });
   }
 
   /**
    * Create a new user
    */
   create(req, res) {
-    UsersService.create(req.body.name).then((r) =>
-      res.status(201).location(`/api/v1/pet/${r.id}`).json(r)
-    );
+    UsersService.create(req.body.name)
+      .then((r) => {
+        res.status(201).location(`/api/v1/pet/${r.id}`).json(r);
+      })
+      .catch((error) => {
+        res.status(500).json(error);
+      });
+  }
+
+  /**
+   * Update a user
+   */
+  update(req, res) {
+    UsersService.update(req.params.id, req.body)
+      .then((result) => {
+        res.json(result);
+      })
+      .catch((error) => {
+        res.status(500).json(error);
+      });
   }
 
   /**
@@ -36,7 +66,7 @@ export class UsersController {
         res.json(result);
       })
       .catch((error) => {
-        res.status(400).json(error);
+        res.status(500).json(error);
       });
   }
 }

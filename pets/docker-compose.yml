@@ -11,6 +11,7 @@ services:
       - pets_mongo
     environment:
       - MONGO_URI=mongodb://pets_mongo:27017/pets
+      - MONGO_URI_TEST=mongodb://pets_mongo:27017/pets-test
       - APP_ID=pets
       - PORT=3000
       - LOG_LEVEL=debug
