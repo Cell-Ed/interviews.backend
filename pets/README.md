@@ -9,7 +9,7 @@ npm install
 ```
 ### Configuration
 
-- Create a `.env` file from the included `.env.sample` with configuration options including URI to your MongoDB instance.
+- Create a `.env` file from the included `.env.sample` with configuration options including your MongoDB connection URI.
 
 ### Run in *development* mode:
 

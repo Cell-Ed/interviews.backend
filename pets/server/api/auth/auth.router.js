@@ -24,7 +24,7 @@ export default express
         req.login(user, { session: false }, async (error) => {
           if (error) return next(error);
           const body = { _id: user._id, email: user.email };
-          const token = jwt.sign({ user: body }, 'TOP_SECRET');
+          const token = jwt.sign({ user: body }, process.env.JWT_SECRET);
           return res.json({ token });
         });
       } catch (error) {

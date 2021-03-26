@@ -15,6 +15,7 @@ services:
       - LOG_LEVEL=debug
       - REQUEST_LIMIT=100kb
       - SESSION_SECRET=mySecret
+      - JWT_SECRET=TOP_SECRET
       - OPENAPI_SPEC=/api/v1/spec
       - OPENAPI_ENABLE_RESPONSE_VALIDATION=false
   pets_mongo:

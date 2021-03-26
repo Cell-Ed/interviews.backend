@@ -1,7 +1,6 @@
 import l from '../../common/logger';
 import { v4 as uuidv4 } from 'uuid';
-
-const AWS = require('aws-sdk');
+import AWS from 'aws-sdk';
 
 class ImagesService {
   async upload(base64, petId) {
