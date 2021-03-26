@@ -1,0 +1,612 @@
+openapi: 3.0.1
+info:
+  title: Cell-Ed Pet Inventory
+  description: Pet Inventory
+  version: 1.0.0
+servers:
+  - url: /api/v1
+tags:
+  - name: Pets
+    description: Information about pets
+  - name: Users
+    description: User account operations
+  - name: Auth
+    description: Generate tokens for authorized access
+  - name: Specification
+    description: The swagger API specification
+paths:
+  /auth/register:
+    post:
+      tags:
+        - Auth
+      summary: Register an account
+      requestBody:
+        description: A username and password
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Credentials"
+      responses:
+        200:
+          description: A created user
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        5XX:
+          description: Error creating user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /auth/token:
+    post:
+      tags:
+        - Auth
+      summary: Obtain a token
+      description: Obtain a token with a valid login
+      requestBody:
+        description: A username and password
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        200:
+          description: A token
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Token"
+        5XX:
+          description: Error logging in user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /users:
+    get:
+      tags:
+        - Users
+      summary: Fetch all user accounts
+      security:
+        - jwt: []
+      responses:
+        200:
+          description: An array of users
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+        404:
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        5XX:
+          description: Error fetching users
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      tags:
+        - Users
+      summary: Create a new user
+      security:
+        - jwt: []
+      requestBody:
+        description: a user
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserBody'
+        required: true
+      responses:
+        201:
+          description: Return the user with the specified id
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        5XX:
+          description: Error creating User
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+  /users/{id}:
+    get:
+      tags:
+        - Users
+      summary: Get a user account
+      security:
+        - jwt: []
+      parameters:
+        - name: id
+          in: path
+          description: The id of the user to retrieve
+          required: true
+          schema:
+            type: string
+      description: Fetch user by id
+      responses:
+        200:
+          description: Return the user with the specified id
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        404:
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        5XX:
+          description: Error fetching user
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    put:
+      tags:
+        - Users
+      summary: Update a user account
+      security:
+        - jwt: []
+      parameters:
+        - name: id
+          in: path
+          description: The id of the user to update
+          required: true
+          schema:
+            type: string
+      description: Update user by id
+      responses:
+        200:
+          description: Updated the user with the specified id
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        404:
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        5XX:
+          description: Error updating user
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    delete:
+      tags:
+        - Users
+      summary: Delete a user account
+      security:
+        - jwt: []
+      parameters:
+        - name: id
+          in: path
+          description: The id of the user to delete
+          required: true
+          schema:
+            type: string
+      description: Delete clinician by sub
+      responses:
+        200:
+          description: Deleted user with the given id
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Result"
+        404:
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        5XX:
+          description: Error deleting user
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /pets:
+    get:
+      tags:
+        - Pets
+      summary: Fetch all pets in the inventory
+      parameters:
+        - name: offset
+          in: query
+          description: Offset for pagination
+          required: false
+          schema:
+            type: integer
+        - name: limit
+          in: query
+          description: Number of records to return
+          required: false
+          schema:
+            type: integer
+        - name: category
+          in: query
+          description: Filter by category
+          schema:
+            type: string
+            example: dog
+      responses:
+        200:
+          description: An array of pets
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pet'
+        404:
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        5XX:
+          description: Error fetching pets
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      tags:
+        - Pets
+      summary: Add a new pet to the inventory
+      security:
+        - jwt: []
+      requestBody:
+        description: a pet
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PetBody'
+        required: true
+      responses:
+        201:
+          description: Created a new pet
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+        404:
+          description: Pet not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+        5XX:
+          description: Error creating pet
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+  /pets/{id}:
+    get:
+      tags:
+        - Pets
+      summary: Get a pet from the inventory
+      parameters:
+        - name: id
+          in: path
+          description: The id of the pet to retrieve
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Return the pet with the specified id
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+        404:
+          description: Pet not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        5XX:
+          description: Error fetching pet
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    put:
+      tags:
+        - Pets
+      summary: Update a pet in the inventory
+      security:
+        - jwt: []
+      parameters:
+        - name: id
+          in: path
+          description: The id of the pet to update
+          required: true
+          schema:
+            type: string
+      description: Update an existing pet
+      responses:
+        200:
+          description: Updated the pet with the specified id
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+        404:
+          description: Pet not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        5XX:
+          description: Error updating pet
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    delete:
+      tags:
+        - Pets
+      summary: Delete a pet in the inventory
+      security:
+        - jwt: []
+      parameters:
+        - name: id
+          in: path
+          description: The id of the pet to delete
+          required: true
+          schema:
+            type: string
+      description: Delete a pet
+      responses:
+        200:
+          description: Deleted pet with the given id
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Result"
+        404:
+          description: Pet not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        5XX:
+          description: Error deleting pet
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /pets/{id}/archive:
+    patch:
+      tags:
+        - Pets
+      summary: Archive a pet
+      security:
+        - jwt: []
+      parameters:
+        - name: id
+          in: path
+          description: The id of the pet to archive
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Pet successfully archived
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Result"
+        404:
+          description: Pet not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        5XX:
+          description: Error archiving pet
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /pets/{id}/unarchive:
+    patch:
+      tags:
+        - Pets
+      summary: Un-archive a pet
+      security:
+        - jwt: []
+      parameters:
+        - name: id
+          in: path
+          description: The id of the pet to unarchive
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Pet successfully unarchived
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Result"
+        404:
+          description: Pet not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        5XX:
+          description: Error unarchiving pet
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /images:
+    post:
+      tags:
+        - Images
+      summary: Upload pet images (as a base64 string)
+      security:
+        - jwt: []
+      requestBody:
+        description: An image of a pet
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Image'
+      responses:
+        200:
+          description: Image uploaded
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ImageResult"
+        5XX:
+          description: Error uploading image
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /spec:
+    get:
+      tags:
+        - Specification
+      responses:
+        200:
+          description: Return the API specification
+          content: {}
+components:
+  schemas:
+    Pet:
+      type: object
+      properties:
+        name:
+          type: string
+          example: "doggie"
+        archived:
+          type: boolean
+          example: false
+        category:
+          type: string
+          example: "dog"
+        imageUris:
+          type: array
+          example: ["image1.jpg", "image2.jpg", "image3.jpg"]
+    PetBody:
+      title: PetBody
+      required:
+        - name
+      type: object
+      properties:
+        name:
+          type: string
+          example: "doggie"
+        archived:
+          type: boolean
+          example: false
+        category:
+          type: string
+          example: "dog"
+        imageUris:
+          type: array
+          example: ["image1.jpg", "image2.jpg", "image3.jpg"]
+    User:
+      type: object
+      properties:
+        active: 
+          type: boolean
+          example: true
+        email:
+          type: string
+          example: "user@cell-ed.com"
+        family:
+          type: string
+          example: "Smith"
+        given:
+          type: string
+          example: "John"
+        role:
+          type: string
+          example: "user"
+    UserBody:
+      type: object
+      properties:
+        active: 
+          type: boolean
+          example: true
+        email:
+          type: string
+          example: "user@cell-ed.com"
+        family:
+          type: string
+          example: "Smith"
+        given:
+          type: string
+          example: "John"
+        role:
+          type: string
+          example: "user"
+    Image:
+      type: object
+      properties:
+        imageData:
+          type: string
+          description: a base64 encoded string
+        petId:
+          type: string
+    Error:
+      type: object
+      example: { "error": "message" }
+    Result:
+      type: object
+      properties:
+        result:
+          type: string
+      example: { "result": "message" }
+    ImageResult:
+      type: object
+      properties:
+        location:
+          type: string
+        key:
+          type: string
+      example: { "location": "awsexamplebucket1.s3.amazonaws.com", "key": "image.jpg" }
+    Credentials:
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+      example: { "email": "user@cell-ed.com", "password": "123456" }
+    Token:
+      type: object
+      properties:
+        token:
+          type: string
+      example: { "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VyIjp7Il9pZCI6IjYwNWJiYTE3MzM3Mzk4NDZhMWJkNzQ0NCIsImVtYWlsIjoidmlzaG51LnJhdmkrM0BnbWFpbC5jb20isSwiaWF0IjoxNjE2NjI0MTY0fQ.kJCkzvbZgmhFLe3iQAnjNnftSr5FIAsHa2JJt3jgPq4" }
+  securitySchemes:
+    jwt:
+      type: http
+      scheme: bearer
+      bearerFormat: jwt
