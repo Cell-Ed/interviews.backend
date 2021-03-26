@@ -1,17 +1,15 @@
-FROM node:12
+FROM node:14
 
 RUN mkdir -p /usr/src/app
 
-WORKDIR /usr/src/app
+COPY . /usr/src/app
 
-COPY . .
+WORKDIR /usr/src/app
 
 RUN npm install
 
 RUN npm run build
 
-RUN npm prune --production
-
 EXPOSE 3000
 
-CMD ["npm", "run", "start"]
+CMD ["npm", "start"]
